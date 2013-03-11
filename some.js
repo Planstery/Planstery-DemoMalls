@@ -25,7 +25,7 @@ var cubique = [
 ];
 
 $(document).ready(function() {
-	Planstery.bind("onselect" , function(event , id){
+	Planstery.bind("onselect" , function(id){
 		var mainContainer = $("#planstery-main-container");
 		clr();
 		toolTip(cubique[id[0].id - 1].header, cubique[id[0].id - 1].text, id[0]);
@@ -33,7 +33,7 @@ $(document).ready(function() {
 	Planstery.bind("ondeselect" , function(){
 		toolTip();
 	});
-	Planstery.bind("onmouseenter" , function(event , id){			
+	Planstery.bind("onmouseenter" , function(id){			
 		toolTip(cubique[id.index - 1].header, cubique[id.index - 1].text, id);
 	});
 	Planstery.bind("onmouseleave" , function(id){

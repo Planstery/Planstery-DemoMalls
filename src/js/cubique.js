@@ -1,4 +1,4 @@
-(function(window, $, undefined) {
+(function(window, $) {
     $(function() {
         Planstery.loadPlan("DemoMalls");
     });
@@ -31,35 +31,8 @@
 
     window.highlightObjects = function(id) {
         Planstery.selectObjects(id);
-        toolTip();
     };
 
-    function clr(selectedIds) {
-        if (selectedIds) {
-            Planstery.clearSelection(null, selectedIds);
-        } else {
-            Planstery.clearSelection();
-        }
-    }
-
-    Planstery.bind("onselect", function(objects){
-        var ids = [];
-        for (var i = 0, l = objects.length; i < l; i++) {
-            ids.push(objects[i].id);
-        }
-        clr(ids);
-        toolTip(cubique[parseInt(ids[0], 10) - 1].header, cubique[parseInt(ids[0], 10) - 1].text, objects[0]);
-    });
-    Planstery.bind("onmouseenter" , function(object){
-        toolTip(cubique[parseInt(object.index, 10) - 1].header, cubique[parseInt(object.index, 10) - 1].text, object);
-    });
-    Planstery.bind("onmouseleave" , function(){
-        toolTip();
-    });
-    Planstery.bind("onplandragstart" , function(){
-        clr();
-        toolTip();
-    });
     Planstery.bind("ondocumentloadcomplete" , function() {
         var groupGreen = ["5", "10"];
         var groupRed = ["1","2","3"];
@@ -88,7 +61,7 @@
             });
         }
 
-        for (var i = 0; i < groupBlue.length; i++) {
+        for (var i = 0; i <= groupBlue.length; i++) {
             Planstery.setStyleForObject({
                 "obj-id": groupBlue[i],
                 "selection-color": "rgba(35, 144, 199, 0.9)",
@@ -148,41 +121,14 @@
                 "hover-color": "rgba(155, 91, 67, 0.8)"
             });
         }
-    });
 
-    var tooltip,
-        tooltipHeader,
-        tooltipText,
-        tooltipWidth,
-        mainContainer;
-
-    $(function() {
-        tooltip = $("#planstery-tooltip");
-        tooltipHeader = $("#planstery-tooltip-header");
-        tooltipText = $("#planstery-tooltip-text");
-        tooltipWidth = 150;
-        mainContainer = $("#planstery-main-container");
-    });
-
-    function toolTip(header, text, object) {
-        if (header) {
-            tooltipHeader.text(header);
-            tooltipText.text(text);
-            var bounds = object.bounds,
-                dx = bounds.center.x,
-                dy = bounds.center.y - bounds.height/2 - tooltip.height() - 20;
-            if (dy < 0) {
-                dy = bounds.center.y + bounds.height/2;
-            }
-            var x = mainContainer.offset().left + dx,
-                y = mainContainer.offset().top + dy;
-            tooltip.css({
-                "display": "block",
-                "left": x - tooltipWidth/2 + 'px',
-                "top": y + 'px'
-            })
-        } else {
-            tooltip.css("display", "none");
+        for(var i = 0; i < cubique.length; i++){
+            Planstery.setTooltipForObject({
+                "obj-id": i + 1,
+                "title": cubique[i].header,
+                "description": cubique[i].text,
+                "image": ""
+            });
         }
-    }
+    });
 }(window, jQuery));
